@@ -47,3 +47,19 @@ The Linux distro building problem came from AI hardware founders who deal with t
 What makes this interesting as a benchmark is that it naturally requires long-horizon planning (easily 100+ steps), deep system understanding (kernel, bootloaders, package managers, init systems), and dealing with long feedback loops where errors are cryptic and often don't surface until boot time. You can't fake your way through it.
 
 I'm starting this project to systematically test how far different LLM agents can actually go with these tasks. The goal is to build a set of reproducible environments and tasks, run different models through them, and document where they succeed and fail.
+
+---
+
+## Broader vision
+
+This project is part of a larger effort to find hard tasks for coding agents. The full notes are in [this Google Doc](https://docs.google.com/document/d/1B1wgmJ1K4CZNMg7VWtUs-QsPAfCJ1mq7ggKO-lAby3U/edit).
+
+Some related ideas we're exploring:
+- 100 tasks that take agents 100 steps to solve (coding mostly)
+- Can agents build Chrome (and can they do follow up tasks)
+- Can agents build their own bun / rust cargo / openshift / kubernetes etc.
+- Given any repo / open-source repo and relevant keys / env vars, how far can agents go
+- Can agents build their own mobile OS
+- Inspection on which model is good at what (e.g. some models better at python, others at design)
+
+Related work: [LLM Speedrunner](https://github.com/facebookresearch/llm-speedrunner) - a benchmark that lets AI build entire models.
