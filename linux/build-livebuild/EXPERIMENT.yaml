@@ -1,0 +1,63 @@
+name: "Build Linux Distro with live-build"
+id: build-linux-livebuild
+category: build
+status: partial
+
+agent:
+  model: claude-opus-4-5
+  sessions: 3
+  total_duration_hours: 4
+  active_duration_hours: 2.5
+
+task:
+  description: "Build a Linux Mint-based distribution using Debian's live-build toolchain"
+  initial_prompt: "can you build a linux distro? we can start from mintos"
+  difficulty: hard
+  estimated_steps: 100
+
+results:
+  success: false
+  partial_score: 0.6
+  artifacts:
+    - "Dockerfile"
+    - "build.sh"
+    - "auto/config"
+  key_metrics:
+    build_stages: 5
+    packages_in_config: 300
+    docker_layers: 30
+    iso_created: false
+
+human_intervention:
+  count: 1
+  critical: false
+  details:
+    - "Platform hint (ARM64 vs AMD64)"
+
+findings:
+  successes:
+    - "Docker configuration with syslinux fixes"
+    - "Comprehensive Cinnamon desktop package selection"
+    - "Workarounds for gfxboot and symlink issues"
+    - "Thorough research of build options"
+  failures:
+    - "live-config-upstart package doesn't exist in Ubuntu 24.04"
+    - "Ubuntu mode has many undocumented requirements"
+  lessons:
+    - "live-build has poor error messages"
+    - "Ubuntu mode is problematic for live-build"
+    - "Build iteration time (20-30 min) is a bottleneck"
+    - "Deprecated package references cause hidden failures"
+
+references:
+  pr_url: "https://github.com/benchflow-ai/llm-builds-linux/pull/4"
+  docs:
+    - "https://live-team.pages.debian.net/live-manual/"
+    - "https://wiki.debian.org/DebianLive"
+
+tags:
+  - linux
+  - distro
+  - live-build
+  - docker
+  - cinnamon
