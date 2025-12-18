@@ -288,3 +288,22 @@ Note: Additional messages after build completion were for documentation/trajecto
 - **File operations:** 50+
 - **Bash commands:** 100+
 - **Build actions compiled:** 118,484
+
+## Sanity Checks
+
+### Performed
+- Verified system architecture (ARM64 Mac)
+- Checked available disk space (199GB)
+- Verified RAM (32GB)
+- Confirmed existing tools (git, python3)
+- Monitored build progress with periodic checks
+- Verified final binary exists (7.8GB output)
+
+### Not Performed
+- Did not verify Chromium.app actually launches
+- Did not test any browser functionality
+- Did not run Chromium's test suite
+- Did not check if the built app can browse websites
+
+This is a key gap: **build success ≠ functional software**. Future experiments should include post-build validation.
+
