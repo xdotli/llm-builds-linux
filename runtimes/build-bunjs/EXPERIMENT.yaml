@@ -1,0 +1,70 @@
+name: "Building Bun from Source"
+id: build-bunjs
+category: build
+status: partial
+
+agent:
+  model: claude-opus-4-5
+  sessions: 1
+  total_duration_hours: 0.75
+  active_duration_hours: 0.5
+
+task:
+  description: "Build the Bun JavaScript/TypeScript runtime from source"
+  initial_prompt: "Build Bun from source, experimenting with the llm-builds-linux benchmark approach"
+  difficulty: hard
+  estimated_steps: 100
+
+results:
+  success: false
+  partial_score: 0.6
+  artifacts:
+    - "Dockerfile"
+    - "build.sh"
+  key_metrics:
+    build_steps_completed: 108
+    build_steps_total: 632
+    completion_percentage: 17
+    dependencies_resolved: 20
+    js_modules_bundled: 136
+    docker_image_size_gb: 6.3
+
+# No cost data available for this experiment
+cost: null
+
+human_intervention:
+  count: 0
+  critical: false
+  details: []
+
+findings:
+  successes:
+    - "Successfully set up Docker build environment with all dependencies"
+    - "Resolved Cargo.lock v4 version issue by switching to rustup"
+    - "CMake configuration completed successfully"
+    - "Downloaded and built 20+ external dependencies (lolhtml, brotli, zstd, highway, etc.)"
+    - "JavaScript module bundling completed (1780kb, 136 modules)"
+    - "C/C++ compilation of ~108 source files"
+  failures:
+    - "Zig compiler failed with CPU architecture detection issues in Docker ARM64 emulation"
+    - "bindings.cpp compilation failed (dependent on Zig build)"
+  lessons:
+    - "Rust version from apt (1.75) is too old for Cargo.lock v4 - must use rustup"
+    - "Zig build fails in Docker ARM64 emulation due to -mcpu native detection issues"
+    - "Building Bun requires Bun itself (bootstrapping problem)"
+    - "LLVM version must exactly match WebKit precompiled version (19)"
+    - "Build has 632 steps with complex interdependencies"
+
+references:
+  docs:
+    - "https://bun.sh/docs/project/contributing"
+    - "https://github.com/oven-sh/bun"
+
+tags:
+  - javascript-runtime
+  - zig
+  - llvm
+  - docker
+  - arm64
+  - webkit
+  - bootstrapping
