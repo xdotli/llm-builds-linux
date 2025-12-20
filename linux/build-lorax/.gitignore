@@ -1,0 +1,6 @@
+# Exclude large build outputs
+output/lorax-output/
+output/logs/
+
+# Keep the directory structure
+!output/.gitkeep
