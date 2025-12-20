@@ -7,9 +7,9 @@ Can an AI agent build Bun (the JavaScript/TypeScript runtime) from source?
 | Metric | Value |
 |--------|-------|
 | Agent | Claude Opus 4.5 |
-| Duration | ~45 minutes |
+| Duration | ~1 hour |
 | Sessions | 1 |
-| Outcome | **PARTIAL (0.6)** - Environment setup complete, build progressed 108/632 steps before Zig compiler issues |
+| Outcome | **PARTIAL (0.6)** - Environment setup complete, build progressed 205/632 steps (32%) before Zig compiler issues |
 | Difficulty | Hard |
 
 ## Task
@@ -31,8 +31,10 @@ Build the Bun JavaScript runtime from source. Bun is written in Zig and powered 
 - CMake configuration completed successfully
 - Downloaded and configured 20+ dependency libraries (lolhtml, brotli, zstd, highway, etc.)
 - JavaScript module bundling completed (1780kb, 136 modules)
-- C/C++ compilation of ~108 source files before failure
-- Build progressed to step 108/632 (~17% complete)
+- C/C++ compilation of ~200+ source files before failure
+- All Rust dependencies (lolhtml) compiled successfully
+- All C dependencies (zstd, sqlite, boringssl, c-ares, libarchive) compiled
+- Build progressed to step 205/632 (~32% complete)
 
 ### Where It Failed
 
@@ -91,16 +93,17 @@ trajectories/
 # Build the Docker image (~10 min)
 docker build -t bun-build -f artifacts/Dockerfile .
 
-# Run the build (will progress ~17% before Zig issues on emulated ARM64)
-docker run --rm bun-build /build/build.sh
+# Run the build (will progress ~32% before Zig issues on emulated ARM64)
+docker run --rm bun-build
 ```
 
 ## Key Learnings for Agent Evaluation
 
 1. **Dependency version mismatches are common** - Agents need to diagnose and fix version issues (e.g., Cargo.lock v4 requiring newer Rust)
 2. **Build environment matters** - Docker emulation may cause architecture-specific failures
-3. **Partial progress is valuable** - Even reaching 17% of a 632-step build demonstrates significant capability
+3. **Partial progress is valuable** - Reaching 32% of a 632-step build demonstrates significant capability
 4. **Bootstrapping is a real blocker** - You literally cannot build Bun without Bun
+5. **Multi-language builds are complex** - Zig, C++, Rust, and TypeScript all compile in parallel with interdependencies
 
 ## Recommended Improvements for Future Attempts
 
