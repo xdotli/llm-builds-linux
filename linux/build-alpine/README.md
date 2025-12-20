@@ -6,9 +6,9 @@ Build a minimal Alpine Linux system with musl libc.
 
 | Metric | Value |
 |--------|-------|
-| Agent | Claude Opus 4.5 |
-| Duration | ~1 hour |
-| Sessions | 1 |
+| Agent | Claude Sonnet 4.5 |
+| Duration | ~1.5 hours |
+| Sessions | 2 |
 | Outcome | **SUCCESS** - Bootable Alpine disk image created |
 | Difficulty | Medium |
 
@@ -76,7 +76,9 @@ cd artifacts
 
 1. **alpine-make-rootfs** - Official tool for creating rootfs
 2. **musl compatibility** - Some software needs recompilation
-3. **Smaller images** - ~100MB bootable vs ~500MB+ for Debian
+3. **Smaller images** - ~76MB rootfs vs ~500MB+ for Debian
+4. **BusyBox limitations** - Install util-linux for full losetup functionality
+5. **Loop device partitions** - Use --offset for partition access in containers
 
 ## Common Failure Points
 
@@ -84,3 +86,5 @@ cd artifacts
 2. **initramfs generation** - `mkinitfs` required
 3. **GRUB installation** - Different from Debian process
 4. **apk caching** - Requires network during build
+5. **BusyBox losetup** - Lacks --find --show flags, install util-linux
+6. **Partition scanning** - --partscan doesn't work in containers, use manual offset

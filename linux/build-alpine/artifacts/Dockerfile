@@ -24,7 +24,8 @@ RUN apk add --no-cache \
     qemu-system-x86_64 \
     qemu-img \
     mkinitfs \
-    busybox-static
+    busybox-static \
+    util-linux
 
 # Download alpine-make-rootfs
 RUN wget -q https://raw.githubusercontent.com/alpinelinux/alpine-make-rootfs/master/alpine-make-rootfs \
