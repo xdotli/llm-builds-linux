@@ -126,7 +126,7 @@ echo "Directory structure created"
 echo "=== Creating Essential Files and Symlinks ==="
 
 # Create /etc/mtab symlink
-ln -sv /proc/self/mounts /etc/mtab
+ln -sfv /proc/self/mounts /etc/mtab
 
 # Create /etc/hosts
 cat > /etc/hosts << EOF
@@ -188,14 +188,21 @@ cd /sources
 
 rm -rf gettext-0.26
 tar xf gettext-0.26.tar.xz
-cd gettext-0.26
+cd gettext-0.26/gettext-tools
 
-./configure --disable-shared
+# Configure with minimal options to avoid dependencies
+./configure --prefix=/usr \
+            --disable-shared \
+            --disable-nls \
+            --disable-threads \
+            --disable-dependency-tracking
 
-make -j$(nproc)
+make -C gnulib-lib -j$(nproc)
+make -C intl -j$(nproc)
+make -C src msgfmt msgmerge xgettext -j$(nproc)
 
 # Only install the three programs we need
-cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin
+cp -v src/{msgfmt,msgmerge,xgettext} /usr/bin
 
 cd /sources
 rm -rf gettext-0.26
