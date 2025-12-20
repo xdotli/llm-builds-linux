@@ -1,12 +1,12 @@
-# LFS Build Environment - ARM64 Native
+# LFS Build Environment
 # Based on Ubuntu 24.04 which meets all LFS 12.4 host requirements
 #
-# Native ARM64 build to avoid QEMU emulation issues
-# docker build -t lfs-builder-arm64 .
-FROM ubuntu:24.04
+# For cross-platform builds (e.g., building x86_64 LFS on ARM64 Mac):
+# docker build --platform linux/amd64 -t lfs-builder .
+FROM --platform=linux/amd64 ubuntu:24.04
 
 LABEL maintainer="LFS Build Experiment"
-LABEL description="Docker environment for building Linux From Scratch 12.4 - ARM64 Native"
+LABEL description="Docker environment for building Linux From Scratch 12.4"
 
 # Avoid interactive prompts
 ENV DEBIAN_FRONTEND=noninteractive
@@ -44,8 +44,8 @@ RUN apt-get update && apt-get install -y \
     parted \
     e2fsprogs \
     dosfstools \
-    grub-efi-arm64-bin \
-    grub-common \
+    grub-pc-bin \
+    grub-efi-amd64-bin \
     # For building kernel
     bc \
     flex \
